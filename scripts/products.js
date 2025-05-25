@@ -43,7 +43,7 @@ async function renderProducts() {
                 <option value="9">9</option>
                 <option value="10">10</option>
             </select>
-            <button class="add-to-cart-button js-add-to-cart-button">Add to Cart</button>
+            <button class="add-to-cart-button js-add-to-cart-button" data-product-id="${product.id}">Add to Cart</button>
         </div>
         
         `
@@ -51,6 +51,15 @@ async function renderProducts() {
 
     document.querySelector('.js-products-grid')
         .innerHTML = productsHTML;
+    
+    
+    document.querySelectorAll('.js-add-to-cart-button')
+        .forEach((button) => {
+            button.addEventListener('click', () => {
+                const productId = button.dataset.productId;
+                console.log(productId);
+            })
+        })
 
 }
 renderProducts(); 

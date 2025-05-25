@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="styles/css/checkout.css">
+</head>
+<body>
+    <div class="page-title">Checkout</div>
+    <div class="checkout-container">
+        <!-- Order Summary (Left Side) -->
+        <div class="order-summary">
+            <h2>Order Summary</h2>
+            <!-- Sample Order Item -->
+            <div class="order-item">
+                <img class="order-item-image" src="https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg" alt="Product Image">
+                <div class="order-item-details">
+                    <div class="order-item-date">Estimated Delivery: May 30, 2025</div>
+                    <div class="order-item-title">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</div>
+                    <div class="order-item-quantity-actions">
+                        <div class="order-item-quantity">Quantity: 2</div>
+                        <button class="update-quantity-button">Update Quantity</button>
+                        <button class="delete-button">Delete</button>
+                    </div>
+                </div>
+                <div class="delivery-options">
+                    <div class="delivery-label">Choose a delivery option</div>
+                    <label><input type="radio" name="delivery-1" value="standard"> Standard (5-7 days)</label>
+                    <label><input type="radio" name="delivery-1" value="express"> Express (2-3 days)</label>
+                    <label><input type="radio" name="delivery-1" value="overnight"> Overnight (1 day)</label>
+                </div>
+            </div>
+            <!-- Add more items dynamically with JavaScript -->
+            <div class="order-item">
+                <img class="order-item-image" src="https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg" alt="Product Image">
+                <div class="order-item-details">
+                    <div class="order-item-date">Estimated Delivery: May 29, 2025</div>
+                    <div class="order-item-title">Mens Casual Premium Slim Fit T-Shirts</div>
+                    <div class="order-item-quantity-actions">
+                        <div class="order-item-quantity">Quantity: 1</div>
+                        <button class="update-quantity-button">Update Quantity</button>
+                        <button class="delete-button">Delete</button>
+                    </div>
+                </div>
+                <div class="delivery-options">
+                    <div class="delivery-label">Choose a delivery option</div>
+                    <label><input type="radio" name="delivery-2" value="standard"> Standard (5-7 days)</label>
+                    <label><input type="radio" name="delivery-2" value="express"> Express (2-3 days)</label>
+                    <label><input type="radio" name="delivery-2" value="overnight"> Overnight (1 day)</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Summary (Right Side) -->
+        <div class="payment-summary">
+            <h2>Payment Summary</h2>
+            <div>
+                <span>Items:</span>
+                <span>$242.20</span>
+            </div>
+            <div>
+                <span>Shipping & Handling:</span>
+                <span>$5.00</span>
+            </div>
+            <div>
+                <span>Total before Tax:</span>
+                <span>$247.20</span>
+            </div>
+            <div>
+                <span>Estimated Tax:</span>
+                <span>$15.00</span>
+            </div>
+            <div class="total">
+                <span>Order Total:</span>
+                <span>$262.20</span>
+            </div>
+            <button class="place-order-button">Place Order</button>
+        </div>
+    </div>
+</body>
+</html>
