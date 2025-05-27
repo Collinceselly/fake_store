@@ -1,4 +1,6 @@
-async function getProducts() {
+import { cart, addTocart } from "./cart.js";
+
+export async function getProducts() {
 
     try {
         const response = await fetch('https://fakestoreapi.com/products');
@@ -18,7 +20,7 @@ async function getProducts() {
 async function renderProducts() {
 
     const products = await getProducts();
-    console.log(products);
+    // console.log(products)
 
     let productsHTML = '';
 
@@ -31,7 +33,7 @@ async function renderProducts() {
             <div class="product-title">${product.title}</div>
             <div class="product-price">$${product.price}</div>
             <div class="product-rating">${product.rating.rate} stars (${product.rating.count} reviews)</div>
-            <select class="quantity-select">
+            <select class="quantity-select js-quantity-selector-${product.id}">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -57,9 +59,38 @@ async function renderProducts() {
         .forEach((button) => {
             button.addEventListener('click', () => {
                 const productId = button.dataset.productId;
-                console.log(productId);
+                addTocart(productId);
+                // console.log(cart);
             })
         })
 
 }
-renderProducts(); 
+
+// document.addEventListener('DOMContentLoaded', renderProducts);
+renderProducts();
+
+
+export async function getMatchingProduct(productId) {
+
+    const products = await getProducts();
+
+    let matchingProduct;
+
+    products.forEach((product) => {
+        if (product.id === productId) {
+            matchingProduct = product;
+        }
+    })
+
+    return matchingProduct;
+}
+
+// getMatchingProduct(productId);
+
+/*
+async function logProduct() {
+    const result = await getMatchingProduct(1);
+    console.log(result); // Logs the resolved value (the matching product)
+}
+
+logProduct(); */
