@@ -144,3 +144,31 @@ header {
 .add-to-cart-button:hover {
     background-color: #F7CA00;
 }
+
+.product-spacer {
+    flex: 1;
+  }
+
+
+.added-to-cart {
+color: rgb(6, 125, 98);
+font-size: 16px;
+
+display: flex;
+align-items: center;
+margin-bottom: 8px;
+
+/* At first, the "Added to cart" message will
+    be invisible. Use JavaScript to change the
+    opacity and make it visible. */
+opacity: 0;
+}
+
+.added-to-cart img {
+height: 20px;
+margin-right: 5px;
+}
+
+.added-message-visible {
+    opacity: 1;
+}

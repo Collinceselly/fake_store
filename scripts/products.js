@@ -45,6 +45,14 @@ async function renderProducts() {
                 <option value="9">9</option>
                 <option value="10">10</option>
             </select>
+
+            <div class="product-spacer"></div>
+
+            <div class="added-to-cart js-added-to-cart-${product.id}">
+              <img src="images/checkmark.png">
+              Added
+            </div>
+
             <button class="add-to-cart-button js-add-to-cart-button" data-product-id="${product.id}">Add to Cart</button>
         </div>
         
@@ -61,6 +69,26 @@ async function renderProducts() {
                 const productId = button.dataset.productId;
                 addTocart(productId);
                 // console.log(cart);
+
+                const addedMessageTimeouts = {};
+                const addedMessage = document.querySelector(`.js-added-to-cart-${productId}`);
+                addedMessage.classList.add('added-message-visible');
+
+                setTimeout(() => {
+                    const previousTimeoutId = addedMessageTimeouts[productId];
+
+              if (previousTimeoutId) {
+                  clearTimeout(previousTimeoutId);
+                }
+          
+                const timeoutId = setTimeout(() => {
+                  addedMessage.classList.remove('added-message-visible');
+                }, 2000);
+          
+                // Save the timeoutId for this product
+                // so we can stop it later if we need to.
+                addedMessageTimeouts[productId] = timeoutId;
+                })
             })
         })
 
