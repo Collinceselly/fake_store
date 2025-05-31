@@ -23,10 +23,11 @@ function saveTostorage() {
 
 // A function that add items to a cart and save in local storage
 export function addTocart(productId) {
+    const id = parseInt(productId, 10)
     let matchingItem;
 
     cart.forEach((cartItem) => {
-        if (productId === cartItem.productId) {
+        if (cartItem.productId === id) {
             matchingItem = cartItem; // Getting a product that matches the productId selected
         }
     })
@@ -45,6 +46,32 @@ export function addTocart(productId) {
         })
     }
     saveTostorage();
+
+}
+
+export function calculateCartQuantity() {
+    let cartQuantity = 0;
+    cart.forEach((cartItem)  => {
+        cartQuantity += cartItem.quantity;
+    })
+
+    return cartQuantity;
+}
+
+export function removeFromCart(productId) {
+    const id = parseInt(productId, 10);
+    const newCart = [];
+
+    cart.forEach((cartItem) => {
+        if (cartItem.productId !== id) {
+            newCart.push(cartItem)
+        }
+    })
+
+    cart = newCart;
+
+    saveTostorage();
+
 
 }
 

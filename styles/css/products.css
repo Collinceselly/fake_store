@@ -34,8 +34,8 @@ header {
     position: absolute;
     top: -5px;
     right: 12px;
-    background-color: #F08804; /* Amazon orange */
-    color: white;
+    /* background-color: #F08804;  */
+    color: #F08804;
     border-radius: 50%;
     width: 18px;
     height: 18px;
@@ -148,7 +148,6 @@ header {
 .product-spacer {
     flex: 1;
   }
-
 
 .added-to-cart {
 color: rgb(6, 125, 98);

@@ -63,11 +63,24 @@ async function renderProducts() {
         .innerHTML = productsHTML;
     
     
+    function updateCartQuantity() {
+        let cartQuantity = 0;
+
+        cart.forEach((cartItem) => {
+            cartQuantity += cartItem.quantity;
+        
+        })
+        document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+    }
+    updateCartQuantity();
+    
+    
     document.querySelectorAll('.js-add-to-cart-button')
         .forEach((button) => {
             button.addEventListener('click', () => {
                 const productId = button.dataset.productId;
                 addTocart(productId);
+                updateCartQuantity();
                 // console.log(cart);
 
                 const addedMessageTimeouts = {};
@@ -91,7 +104,7 @@ async function renderProducts() {
                 })
             })
         })
-
+     
 }
 
 // document.addEventListener('DOMContentLoaded', renderProducts);

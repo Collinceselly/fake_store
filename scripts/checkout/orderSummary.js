@@ -1,4 +1,4 @@
-import { cart } from "../cart.js";
+import { calculateCartQuantity, cart, removeFromCart } from "../cart.js";
 import { getMatchingProduct, getProducts } from "../products.js";
 
 
@@ -12,11 +12,11 @@ export async function renderOrderSummary(){
 
         const matchingProduct = await getMatchingProduct(productId);
 
-        console.log('Matching Product: ', matchingProduct);
+        // console.log('Matching Product: ', matchingProduct);
 
         cartSummaryHTML += `
         
-        <div class="order-item">
+        <div class="order-item js-order-item-${matchingProduct.id}">
                 <img class="order-item-image" src="${matchingProduct.image}" alt="Product Image">
                 <div class="order-item-details">
                     <div class="order-item-date">Estimated Delivery: May 30, 2025</div>
@@ -24,7 +24,7 @@ export async function renderOrderSummary(){
                     <div class="order-item-quantity-actions">
                         <div class="order-item-quantity">Quantity: ${cartItem.quantity}</div>
                         <button class="update-quantity-button">Update Quantity</button>
-                        <button class="delete-button">Delete</button>
+                        <button class="delete-button js-delete-button" data-product-id = "${matchingProduct.id}">Delete</button>
                     </div>
                 </div>
                 <div class="delivery-options">
@@ -42,6 +42,34 @@ export async function renderOrderSummary(){
 
     document.querySelector('.js-order-summary')
         .innerHTML = cartSummaryHTML; 
+    
+    
+    document.querySelectorAll(`.js-delete-button`)
+        .forEach((link) => {
+            const productId = link.dataset.productId;
+            link.addEventListener('click', () => {
+                removeFromCart(productId);
+            
+            const container = document.querySelector(`.js-order-item-${productId}`);
+           
+            container.remove();
+
+
+            updateCartQuantity();
+
+            renderOrderSummary();
+                
+            })
+        })
+
+        function updateCartQuantity() {
+            const cartQuantity = calculateCartQuantity();
+
+            document.querySelector('.js-page-title').innerHTML = `Checkout (${cartQuantity} Items)`
+        }
+        updateCartQuantity()
+
+    
 
     }
-renderOrderSummary();
+// renderOrderSummary();
