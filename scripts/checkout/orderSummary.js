@@ -1,4 +1,4 @@
-import { calculateCartQuantity, cart, removeFromCart } from "../cart.js";
+import { calculateCartQuantity, cart, removeFromCart, updateQuantity } from "../cart.js";
 import { getMatchingProduct, getProducts } from "../products.js";
 
 
@@ -22,8 +22,10 @@ export async function renderOrderSummary(){
                     <div class="order-item-date">Estimated Delivery: May 30, 2025</div>
                     <div class="order-item-title">${matchingProduct.title}</div>
                     <div class="order-item-quantity-actions">
-                        <div class="order-item-quantity">Quantity: ${cartItem.quantity}</div>
-                        <button class="update-quantity-button">Update Quantity</button>
+                        <div class="order-item-quantity js-order-item-quantity-${matchingProduct.id}">Quantity: ${cartItem.quantity}</div>
+                        <button class="update-quantity-button js-update-quantity-button" data-product-id = "${matchingProduct.id}">Update Quantity</button>
+                        <input class="new-quantity-input js-new-quantity-input-enter js-new-quantity-input-${matchingProduct.id}" data-product-id = "${matchingProduct.id}">
+                        <button class="save-quantity-link link-primary js-save-quantity-link" data-product-id = "${matchingProduct.id}">save</button>
                         <button class="delete-button js-delete-button" data-product-id = "${matchingProduct.id}">Delete</button>
                     </div>
                 </div>
@@ -70,6 +72,81 @@ export async function renderOrderSummary(){
         updateCartQuantity()
 
     
+    document.querySelectorAll('.js-update-quantity-button')
+        .forEach((link) => {
+            const productId = link.dataset.productId;
+            link.addEventListener('click', () => {
+                const container = document.querySelector(`.js-order-item-${productId}`);
+
+                container.classList.add('is-editing-quantity');
+            })
+        })
+
+
+    document.querySelectorAll('.js-save-quantity-link')
+        .forEach((link) => {
+            const productId = link.dataset.productId;
+
+            link.addEventListener('click', () => {
+
+                const quantityInput = document.querySelector(`.js-new-quantity-input-${productId}`);
+
+                const newQuantity = Number(quantityInput.value);
+
+                if (newQuantity < 0 || newQuantity >= 1000) {
+                    alert('Quantity must be at least 0 and less than 1000');
+                    return;
+                  }
+                updateQuantity(productId, newQuantity)
+
+                const container = document.querySelector(`.js-order-item-${productId}`);
+                
+                container.classList.remove('is-editing-quantity');
+
+                const quantityLabel = document.querySelector(`.js-order-item-quantity-${productId}`);
+
+                quantityLabel.innerHTML = newQuantity;
+
+                updateCartQuantity();
+
+                renderOrderSummary();
+                
+            })
+        })
+
+    
+    document.querySelectorAll('.js-new-quantity-input-enter')
+        .forEach((input) => {
+            const productId = input.dataset.productId;
+            input.addEventListener('keydown', (event) => {
+
+                if (event.key === 'Enter') {
+
+                    const quantityInput = document.querySelector(`.js-new-quantity-input-${productId}`);
+
+                    const newQuantity = Number(quantityInput.value)
+                    
+                    if (newQuantity < 0 || newQuantity >= 1000) {
+                        alert('Quantity must be at least 0 and less than 1000');
+                        return;
+                    }
+                    updateQuantity(productId, newQuantity);
+
+                    const container = document.querySelector(`.js-order-item-${productId}`);
+                    
+                    container.classList.remove('is-editing-quantity');
+
+                    const quantityLabel = document.querySelector(`.js-order-item-quantity-${productId}`);
+
+                    quantityLabel.innerHTML = newQuantity;
+
+                    updateCartQuantity();
+
+                    renderOrderSummary();
+            }
+
+            })
+        })
 
     }
 // renderOrderSummary();
