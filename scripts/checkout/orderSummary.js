@@ -21,6 +21,7 @@ export async function renderOrderSummary(){
                 <div class="order-item-details">
                     <div class="order-item-date">Estimated Delivery: May 30, 2025</div>
                     <div class="order-item-title">${matchingProduct.title}</div>
+                    <div class="order-item-price">$${matchingProduct.price}</div>
                     <div class="order-item-quantity-actions">
                         <div class="order-item-quantity js-order-item-quantity-${matchingProduct.id}">Quantity: ${cartItem.quantity}</div>
                         <button class="update-quantity-button js-update-quantity-button" data-product-id = "${matchingProduct.id}">Update Quantity</button>

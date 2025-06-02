@@ -218,3 +218,8 @@ body {
 .is-editing-quantity .order-item-quantity {
     display: initial;
 }
+
+.order-item-price {
+    color: rgb(177, 39, 4);
+
+}
