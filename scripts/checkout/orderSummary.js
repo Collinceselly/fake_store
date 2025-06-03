@@ -1,4 +1,4 @@
-import { calculateCartQuantity, cart, removeFromCart, updateQuantity } from "../cart.js";
+import { calculateCartQuantity, cart, removeFromCart, updateQuantity, updateDeliveryOption } from "../cart.js";
 import { getMatchingProduct, getProducts } from "../products.js";
 import { deliveryOptions, getDeliveryOption, calculateDeliveryDate } from "../deliveryOptions.js";
 import { formatCurrency } from "../money.js"
