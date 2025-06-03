@@ -1,6 +1,7 @@
 import { calculateCartQuantity, cart, removeFromCart, updateQuantity } from "../cart.js";
 import { getMatchingProduct, getProducts } from "../products.js";
-
+import { deliveryOptions, getDeliveryOption, calculateDeliveryDate } from "../deliveryOptions.js";
+import { formatCurrency } from "../money.js"
 
 export async function renderOrderSummary(){
 
@@ -12,6 +13,13 @@ export async function renderOrderSummary(){
 
         const matchingProduct = await getMatchingProduct(productId);
 
+        const deliveryOptionId = cartItem.deliveryOptionId;
+      
+        const deliveryOption = getDeliveryOption(deliveryOptionId);
+
+        const dateString = calculateDeliveryDate(deliveryOption);
+
+
         // console.log('Matching Product: ', matchingProduct);
 
         cartSummaryHTML += `
@@ -19,7 +27,7 @@ export async function renderOrderSummary(){
         <div class="order-item js-order-item-${matchingProduct.id}">
                 <img class="order-item-image" src="${matchingProduct.image}" alt="Product Image">
                 <div class="order-item-details">
-                    <div class="order-item-date">Estimated Delivery: May 30, 2025</div>
+                    <div class="order-item-date">Delivery Date: ${dateString}</div>
                     <div class="order-item-title">${matchingProduct.title}</div>
                     <div class="order-item-price">$${matchingProduct.price}</div>
                     <div class="order-item-quantity-actions">
@@ -32,9 +40,7 @@ export async function renderOrderSummary(){
                 </div>
                 <div class="delivery-options">
                     <div class="delivery-label">Choose a delivery option</div>
-                    <label><input type="radio" name="delivery-1" value="standard"> Standard (5-7 days)</label>
-                    <label><input type="radio" name="delivery-1" value="express"> Express (2-3 days)</label>
-                    <label><input type="radio" name="delivery-1" value="overnight"> Overnight (1 day)</label>
+                    ${deliveryOptionsHTML(matchingProduct, cartItem)}
                 </div>
         </div>
 
@@ -42,6 +48,45 @@ export async function renderOrderSummary(){
 
         
     };
+
+    function deliveryOptionsHTML(matchingProduct, cartItem){
+        let html = '';
+
+        deliveryOptions.forEach((deliveryOption) => {
+            const dateString = calculateDeliveryDate(deliveryOption);
+
+            let priceString;
+
+            if (deliveryOption.priceCents === 0) {
+                priceString = 'FREE-Delivery'
+            }
+            else {
+                priceString = `$${formatCurrency(deliveryOption.priceCents)} - Shipping`
+            }
+
+            const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
+
+            html += `
+                    <div class="delivery-option js-delvery-option"data-product-id="${matchingProduct.id}" data-delivery-option-id="${deliveryOption.id}">
+                        <input type="radio" 
+                        ${isChecked ? 'checked' : ''}
+                            class="delivery-option-input"
+                            name="delivery-option-${matchingProduct.id}">
+                        <div>
+                            <div class="delivery-option-date">
+                            ${dateString}
+                            </div>
+                            <div class="delivery-option-price">
+                            ${priceString}
+                            </div>
+                        </div>
+                    </div>
+            `
+        })
+        return html;
+
+
+    }
 
     document.querySelector('.js-order-summary')
         .innerHTML = cartSummaryHTML; 
@@ -148,6 +193,17 @@ export async function renderOrderSummary(){
 
             })
         })
+
+         document.querySelectorAll('.js-delvery-option')
+            .forEach((button) => {
+            button.addEventListener('click', () => {
+                const {productId, deliveryOptionId} = button.dataset
+                updateDeliveryOption(productId, deliveryOptionId)
+                renderOrderSummary()
+
+                // renderPaymentSummary()
+            })
+            })
 
     }
 // renderOrderSummary();

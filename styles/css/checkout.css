@@ -221,5 +221,9 @@ body {
 
 .order-item-price {
     color: rgb(177, 39, 4);
+}
 
+.delivery-option-date {
+    color: green;
+    font-weight: bold;
 }
