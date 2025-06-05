@@ -20,7 +20,6 @@ export async function getProducts() {
 async function renderProducts() {
 
     const products = await getProducts();
-    // console.log(products)
 
     let productsHTML = '';
 

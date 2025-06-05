@@ -1,7 +1,8 @@
 import { calculateCartQuantity, cart, removeFromCart, updateQuantity, updateDeliveryOption } from "../cart.js";
 import { getMatchingProduct, getProducts } from "../products.js";
 import { deliveryOptions, getDeliveryOption, calculateDeliveryDate } from "../deliveryOptions.js";
-import { formatCurrency } from "../money.js"
+import { formatCurrency } from "../money.js";
+import { renderPaymentSummary } from "./paymentSummary.js";
 
 export async function renderOrderSummary(){
 
@@ -106,7 +107,9 @@ export async function renderOrderSummary(){
             updateCartQuantity();
 
             renderOrderSummary();
-                
+
+            renderPaymentSummary();
+
             })
         })
 
@@ -156,6 +159,8 @@ export async function renderOrderSummary(){
                 updateCartQuantity();
 
                 renderOrderSummary();
+
+                renderPaymentSummary();
                 
             })
         })
@@ -189,6 +194,8 @@ export async function renderOrderSummary(){
                     updateCartQuantity();
 
                     renderOrderSummary();
+
+                    renderPaymentSummary();
             }
 
             })
@@ -199,9 +206,10 @@ export async function renderOrderSummary(){
             button.addEventListener('click', () => {
                 const {productId, deliveryOptionId} = button.dataset
                 updateDeliveryOption(productId, deliveryOptionId)
+                
                 renderOrderSummary()
 
-                // renderPaymentSummary()
+                renderPaymentSummary()
             })
             })
 

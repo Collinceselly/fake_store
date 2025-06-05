@@ -1,4 +1,5 @@
 import { renderOrderSummary } from "./checkout/orderSummary.js";
+import { renderPaymentSummary } from "./checkout/paymentSummary.js";
 import { getProducts } from "./products.js";
 import { cart } from "./cart.js";
 
@@ -14,6 +15,7 @@ export async function loadCheckoutPage() {
     }
 
     renderOrderSummary();
+    renderPaymentSummary();
 }
 
 loadCheckoutPage();
